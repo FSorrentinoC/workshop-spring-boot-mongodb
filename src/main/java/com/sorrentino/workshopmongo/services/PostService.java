@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sorrentino.workshopmongo.domain.Post;
+import com.sorrentino.workshopmongo.repository.PostRepository;
 import com.sorrentino.workshopmongo.repository.UserRepository;
 import com.sorrentino.workshopmongo.services.exception.ObjectNotFoundException;
 
@@ -13,18 +14,18 @@ import com.sorrentino.workshopmongo.services.exception.ObjectNotFoundException;
 public class PostService {
 
 	@Autowired
-	private UserRepository repo;
+	private PostRepository repo;
 
 	public Post findById(String id) {
-		Post user = repo.findOne(id);
+		Post user = repo.findById(id);
 		if (user == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado");
 		}
 		return user;
 	}
-	
-	public List<Post> findByTitle(String text){
-		return repo.findByTitleContainingIgnoreCase(text);
+
+	public List<Post> findByTitle(String text) {
+		return repo.searchTitle(text);
 	}
-	
+
 }
